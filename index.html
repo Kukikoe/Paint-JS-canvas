@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+	<div class="buttons-container">
+		<div class="title">
+		<img src="http://s1.iconbird.com/ico/2013/6/380/w256h2561372591860Brush.png" class="brush-img" alt="">
+		Paint App
+	</div>
+		<button class="btn clear-btn" id="clearBtn">Clear</button>
+		<button class="btn brush-btn" id="brushBtn">Brush</button>
+		<div class="dropdown">
+			<button class="btn dropbtn">Figures</button>
+			<div class="dropdown-content" id="dropdown">
+				<span>Circle</span>
+				<span>Square</span>
+				<span>Triangle</span>
+				<span>Hexagon</span>
+			</div>
+		</div>
+		<span class="color-box">
+			<input type="color" id="color" class="color-input">
+		</span>
+		<div class="wrp">
+			<input type="range" min="1" max="120" value="1" id="range">
+			<input class="output" id="output" type="number" value="1" readonly>
+		</div>
+	</div>
+	<div class="canvas-wrapper">
+		<canvas id="canvas" width="650" height="650"></canvas>
+	</div>
+		<div class="canvas-coordinates">
+		<span class="canvas-coord-x">X: <span id="canvasCoordX"></span></span>
+
+		<span class="canvas-coord-y">Y: <span id="canvasCoordY"></span></span>
+	</div>
+	<script src="js/script.js"></script>
+</body>
+</html>
