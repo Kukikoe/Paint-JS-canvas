@@ -55,6 +55,8 @@ function getCursor(event) {
 }
 
 function getFigureForCursor() {
+	if (mode !== "figure") return;
+ 
 	let size = Number(localStorage.getItem("Size"));
 	let cursor = document.createElement('canvas');
 	let ctxCurs = cursor.getContext('2d');
