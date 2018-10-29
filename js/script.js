@@ -67,13 +67,13 @@ function getFigureForCursor() {
 	canvas.style.cursor = 'url(' + cursor.toDataURL() + '), auto';
 }
 
-function getFigure(ctx, size, figure, x, y) {
+/*function getFigure(ctx, size, figure, x, y) {
 	let side = Math.sqrt(Math.pow(size / 2, 2) - Math.pow(size / 4, 2));
 
 	switch (figure) {
 		case "Circle":
 		ctx.beginPath();
-		ctx.arc(x + size / 2, y + size / 2, size / 2, 0, 13 * Math.PI / 2, false);	
+		ctx.arc(x + size / 2, y + size / 2, size / 2, 0, 13 * Math.PI / 2);	
 		ctx.stroke();
 		break;
 		case "Square":
@@ -101,6 +101,7 @@ function getFigure(ctx, size, figure, x, y) {
 		break;	
 	}
 }
+module.exports = getFigure;*/
 
 function drawFigure(event) {
 	if (mode !== "figure") return;
