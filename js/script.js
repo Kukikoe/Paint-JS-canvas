@@ -2,17 +2,75 @@ window.onload = function() {
 	init();
 };
 
-const canvas = document.getElementById('canvas');
-
-let rng = document.getElementById('range');
-let output = document.getElementById('output'); // p - абзац
-let color = document.getElementById("color");
 let canvasCoordX = document.getElementById("canvasCoordX");
 let canvasCoordY = document.getElementById("canvasCoordY");
 
 const dropDown = document.getElementById("dropdown");
 const btnClear = document.getElementById("clearBtn");
 const btnBrush = document.getElementById("brushBtn");
+
+const tabElem = document.querySelector(".tab");
+const tabContentElem = document.querySelector(".tab-contents");
+const canvasForCopyElem = document.getElementById("canvas-for-copy");
+let count = 1;
+
+tabElem.addEventListener("click", (event) => {
+	let tabCont = document.querySelectorAll(".tabcontent");
+	let target = event.target;
+	if(target.closest('.tablinks').dataset.id === "add-tab") {
+		count++;
+		addTabSheet(tabElem.firstChild.nextSibling, tabElem.children.length - 1, count);
+
+		return;
+	}
+	if(target.closest('.tablinks__button')) {
+		deleteTabSheet(target.closest('.tablinks__button').parentElement);
+		return;
+	}
+	for (let i = 0; i < tabCont.length; i++) {
+		tabCont[i].classList.remove("active");
+	}
+	openSheet(target.closest('.tablinks'));
+});
+
+function deleteTabSheet(sheet) {
+	deleteCanvasForTab(sheet);
+	sheet.remove();
+}
+
+function deleteCanvasForTab(sheet) {
+document.getElementById(sheet.dataset.id).remove();
+}
+
+function addTabSheet(btn, position, count) {
+	let newTab = btn.cloneNode(true);
+	newTab.dataset.id = "tab-" + (position + 1);
+	newTab.querySelector(".sheet-name").innerHTML = 'Sheet ' + count;
+	let parentElemOfBtns = btn.parentElement;
+	parentElemOfBtns.insertBefore(newTab, parentElemOfBtns.children[position]);
+	addCanvasForTab(newTab.dataset.id);
+}
+
+function addCanvasForTab(id) {
+ 
+	let newCanvasForTab = canvasForCopyElem.cloneNode(true);
+	newCanvasForTab.id = id;
+	tabContentElem.appendChild(newCanvasForTab);
+	addEventListeners(newCanvasForTab.querySelector(".canvas"));
+}
+
+function openSheet(btn) {
+	const tab = document.getElementById(btn.dataset.id);
+	tab.classList.add("active");
+}
+
+
+let canvas = document.getElementById('canvas');
+let rng = document.getElementById('range');
+let output = document.getElementById('output'); // p - абзац
+let color = document.getElementById("color");
+
+
 
 let fillColor = localStorage.getItem("Color") || "#000";
 
@@ -24,10 +82,10 @@ color.value = fillColor;
 output.value = rng.value = size;
 
 function init() {
-	addEventListeners();
+	addEventListeners(canvas);
 }
 
-function addEventListeners() {
+function addEventListeners(canvas) {
 	canvas.addEventListener('mousemove', function(event) {
 		canvasCoordX.innerHTML = event.offsetX;
 		canvasCoordY.innerHTML = event.offsetY;
@@ -66,42 +124,6 @@ function getFigureForCursor() {
 	getFigure(ctxCurs, size, figure, 1, 1);
 	canvas.style.cursor = 'url(' + cursor.toDataURL() + '), auto';
 }
-
-/*function getFigure(ctx, size, figure, x, y) {
-	let side = Math.sqrt(Math.pow(size / 2, 2) - Math.pow(size / 4, 2));
-
-	switch (figure) {
-		case "Circle":
-		ctx.beginPath();
-		ctx.arc(x + size / 2, y + size / 2, size / 2, 0, 13 * Math.PI / 2);	
-		ctx.stroke();
-		break;
-		case "Square":
-		ctx.beginPath();
-		ctx.strokeRect(x, y, size, size);
-		break;
-		case "Triangle":
-		ctx.beginPath();
-		ctx.moveTo(x + size / 2, y);
-		ctx.lineTo(x, y + Math.sqrt(Math.pow(size, 2) - Math.pow(size / 2, 2)));
-		ctx.lineTo(x + size, y + Math.sqrt(Math.pow(size, 2) - Math.pow(size / 2, 2)));
-		ctx.lineTo(x + size / 2, y);
-		ctx.stroke();
-		break;
-		case "Hexagon":
-		ctx.beginPath();
-		ctx.moveTo(x + size / 4, y - side  + size / 2);
-		ctx.lineTo(x, y + size / 2);
-		ctx.lineTo(x + size / 4, y + side  + size / 2);
-		ctx.lineTo(x + size / 4 + size / 2, y + side  + size / 2);
-		ctx.lineTo(x + size, y  + size / 2);
-		ctx.lineTo(x + size / 4 + size / 2, y - side  + size / 2);
-		ctx.lineTo(x + size / 4, y - side  + size / 2);
-		ctx.stroke();
-		break;	
-	}
-}
-module.exports = getFigure;*/
 
 function drawFigure(event) {
 	if (mode !== "figure") return;

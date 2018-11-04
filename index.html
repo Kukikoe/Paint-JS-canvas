@@ -30,10 +30,38 @@
 			<input class="output" id="output" type="number" value="1" readonly>
 		</div>
 	</div>
-	<div class="canvas-wrapper">
-		<canvas id="canvas" width="650" height="650"></canvas>
+
+	<!-- Tab links -->
+	<div class="tab">
+		<div class="tablinks" data-id="tab-1">
+			<span class="sheet-name">Sheet 1</span>
+			<div class="tablinks__button">
+				<i class="icon icon-delete">
+					<img src="img/close.svg" class="icon__img">
+				</i>
+			</div>
+		</div>
+		<div class="tablinks" data-id="add-tab">+</div>
 	</div>
-		<div class="canvas-coordinates">
+
+	<!-- Tab content -->
+	<div class="tab-contents">
+		<div id="tab-1" class="tabcontent active">
+			<div class="canvas-wrapper">
+				<canvas id="canvas" width="650" height="650"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<div id="canvas-for-copy" class="tabcontent">
+		<div class="canvas-wrapper">
+			<canvas class="canvas" width="650" height="650"></canvas>
+		</div>
+	</div>
+
+
+
+	<div class="canvas-coordinates">
 		<span class="canvas-coord-x">X: <span id="canvasCoordX"></span></span>
 
 		<span class="canvas-coord-y">Y: <span id="canvasCoordY"></span></span>

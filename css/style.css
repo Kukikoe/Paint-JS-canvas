@@ -114,6 +114,75 @@ body {
 	padding-right: 3px;
 }
 
+/* Style the tab */
+.tab {
+	width: 650px;
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tablinks {
+	display: flex;
+	position: relative;
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tablinks:hover {
+	background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tablinks:.active {
+	background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+	display: none;
+}
+
+.tabcontent.active {
+	display: block;
+}
+
+.tablinks__button {
+	margin-left: auto;
+	display: flex;
+}
+
+.icon {
+	font-style: normal;
+	width: 8px;
+	padding: 4px;
+	position: absolute;
+	top: 2px;
+}
+
+.icon:hover {
+border-radius: 50%;
+background-color: #ccc;
+}
+
+.icon__img {
+	width: 100%;
+	cursor: pointer;
+	display: block;
+}
+
+
+
 .canvas-coordinates {
 	text-align: center;
 	margin-top: 20px;
