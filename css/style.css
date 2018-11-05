@@ -3,7 +3,7 @@ body {
 	margin: 0;
 }
 
-.canvas-wrapper {
+.tab-contents {
     border: 1px solid black;
     width: 650px;
     height: initial;
