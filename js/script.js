@@ -1,5 +1,6 @@
 window.addEventListener("load", function() {
 	initTabs();
+	init();
 });
 
 function initTabs() {
@@ -29,27 +30,34 @@ function initTabs() {
 function Tabs(tabBtnsElem, tabContentsElem) {
 	this.add = function(btn) {
 		Tabs.count++;
-		console.log(Tabs.count)
 		let position = tabBtnsElem.children[tabBtnsElem.children.length - 1];
 		let newTab = btn.cloneNode(true);
 		newTab.dataset.id = "tab-" + Tabs.count;
 		newTab.querySelector(".sheet-name").innerHTML = 'Sheet ' + Tabs.count;
 		tabBtnsElem.insertBefore(newTab, position);
 		addSheetForTab(newTab.dataset.id);
+		this.open(newTab);
 	}
 
 	this.delete = function(tabBtn) {
 		deleteTabContent(tabBtn.dataset.id);
 		tabBtn.remove();
+		if(tabBtn.closest(".active")) {
+			this.open(tabBtnsElem.children[tabBtnsElem.children.length - 2]);
+		}	
 	}
 
 	this.open = function(btn) {
 		let tabContentsChildren = tabContentsElem.children;
+		let tabBtnsChildren = tabBtnsElem.children;
+
 		for (let i = 0; i < tabContentsChildren.length; i++) {
 			tabContentsChildren[i].classList.remove("active");
+			tabBtnsChildren[i].classList.remove("active");
 		}
 		const tab = document.getElementById(btn.dataset.id);
 		tab.classList.add("active");
+		btn.classList.add("active");
 	}
 
 	function addSheetForTab(id) {
@@ -60,8 +68,8 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 
 	function createSheet(id) {
 		let sheet = document.createElement("div");
-		sheet.classList.add("tab-content");
 		sheet.id = id;
+		sheet.classList.add("tabcontent");
 		let canvas = document.createElement("canvas");
 		canvas.classList.add("canvas");
 		canvas.width = "650";

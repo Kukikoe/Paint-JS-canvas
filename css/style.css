@@ -144,7 +144,7 @@ body {
 }
 
 /* Create an active/current tablink class */
-.tablinks:.active {
+.tablinks.active {
 	background-color: #ccc;
 }
 
