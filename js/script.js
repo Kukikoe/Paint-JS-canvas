@@ -6,18 +6,19 @@ window.addEventListener("load", function() {
 function initTabs() {
 	const tabBtnsElem = document.querySelector(".tab");
 	const tabContentsElem = document.querySelector(".tab-contents");
+	let tabsObj = new Tabs(tabBtnsElem, tabContentsElem);
+	window.tabsObj = tabsObj;
 
 	tabBtnsElem.addEventListener("click", (event) => {
-		let tabsObj = new Tabs(tabBtnsElem, tabContentsElem);
 		let target = event.target;
 
-		if(target.closest('.tablinks__button')) {
+		if(target.closest('.tablinks__close')) {
 			tabsObj.delete(target.closest('.tablinks'));
 			return;
 		}
 		if (target.closest('.tablinks')) {
 			if(target.closest('.tablinks').dataset.id === "add-tab") {
-				tabsObj.add(tabBtnsElem.firstChild.nextSibling);
+				tabsObj.add();
 				return;
 			}
 
@@ -28,15 +29,26 @@ function initTabs() {
 }
 
 function Tabs(tabBtnsElem, tabContentsElem) {
-	this.add = function(btn) {
+	this.add = function() {
 		Tabs.count++;
-		let position = tabBtnsElem.children[tabBtnsElem.children.length - 1];
-		let newTab = btn.cloneNode(true);
+		let newTab = document.createElement("div");
+		newTab.className = "tablinks";
 		newTab.dataset.id = "tab-" + Tabs.count;
-		newTab.querySelector(".sheet-name").innerHTML = 'Sheet ' + Tabs.count;
+
+		let span = document.createElement("span");
+		span.className = "sheet-name";
+		span.innerHTML = 'Sheet ' + Tabs.count;
+
+		let btnDel = document.createElement("div");
+		btnDel.className = "tablinks__close";
+		newTab.appendChild(span);
+		newTab.appendChild(btnDel);
+
+		let position = tabBtnsElem.children[tabBtnsElem.children.length - 1];
 		tabBtnsElem.insertBefore(newTab, position);
-		addSheetForTab(newTab.dataset.id);
+		let tabCanvas = addSheetForTab(newTab.dataset.id);
 		this.open(newTab);
+		return tabCanvas;
 	}
 
 	this.delete = function(tabBtn) {
@@ -58,12 +70,20 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 		const tab = document.getElementById(btn.dataset.id);
 		tab.classList.add("active");
 		btn.classList.add("active");
+
+		this.onOpen(tab, btn);
 	}
+
+	this.onOpen = function() {}
 
 	function addSheetForTab(id) {
 		let newCanvasForTab = createSheet(id);
+		let canvas = newCanvasForTab.querySelector("canvas");
+		canvas.paintObj = new Paint(canvas);
 		tabContentsElem.appendChild(newCanvasForTab);
-		addEventListeners(newCanvasForTab.querySelector(".canvas"));
+		return newCanvasForTab;
+		//console.dir(canvas)
+		//addEventListeners(newCanvasForTab.querySelector(".canvas"));
 	}
 
 	function createSheet(id) {
@@ -83,7 +103,7 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 	}
 }
 
-Tabs.count = 1;
+Tabs.count = 0;
 
 
 

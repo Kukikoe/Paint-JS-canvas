@@ -3,6 +3,10 @@ body {
 	margin: 0;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 .tab-contents {
     border: 1px solid black;
     width: 650px;
@@ -116,10 +120,14 @@ body {
 
 /* Style the tab */
 .tab {
+	align-items: center;
 	width: 650px;
+	height: 46px;
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;
+	padding-left: 5px;
+	padding-right: 5px;
 	overflow: hidden;
 	border: 1px solid #ccc;
 	background-color: #f1f1f1;
@@ -128,13 +136,14 @@ body {
 /* Style the buttons that are used to open the tab content */
 .tablinks {
 	display: flex;
+	align-items: center;
 	position: relative;
 	background-color: inherit;
-	float: left;
 	border: none;
 	outline: none;
 	cursor: pointer;
 	padding: 14px 16px;
+	border-radius: 20px 20px 0 0;
 	transition: 0.3s;
 }
 
@@ -145,7 +154,18 @@ body {
 
 /* Create an active/current tablink class */
 .tablinks.active {
-	background-color: #ccc;
+	background-color: #fff;
+}
+
+.tablinks.add-tab {
+	margin-left: 6px;
+	padding: 7px 11px;
+	border-radius: 50px;
+}
+
+.tablinks.add-tab::before,
+.tablinks.add-tab::after {
+	display: none;
 }
 
 /* Style the tab content */
@@ -157,31 +177,21 @@ body {
 	display: block;
 }
 
-.tablinks__button {
-	margin-left: auto;
+.tablinks__close {
+	background-size: 50%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-image: url(../img/close.svg);
 	display: flex;
+	width: 16px;
+	height: 16px;
+	margin-left: 5px;
 }
 
-.icon {
-	font-style: normal;
-	width: 8px;
-	padding: 4px;
-	position: absolute;
-	top: 2px;
-}
-
-.icon:hover {
+.tablinks__close:hover {
 border-radius: 50%;
 background-color: #ccc;
 }
-
-.icon__img {
-	width: 100%;
-	cursor: pointer;
-	display: block;
-}
-
-
 
 .canvas-coordinates {
 	text-align: center;

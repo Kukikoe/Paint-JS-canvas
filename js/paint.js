@@ -1,38 +1,35 @@
 
-
-let canvas = document.querySelector('canvas');
-
-let figure;
-let mode = "brush";
-
 function init() {
-	addEventListeners(canvas);
+	addEventListeners();
+	render();
 }
 
-function addEventListeners(canvas) {
-	let arraySheets = JSON.parse(localStorage.getItem("CanvasSheets")) || [];
+function render() {
+	let arraySheets = JSON.parse(localStorage.getItem("CanvasSheets"));
+	arraySheets.forEach((sheet) => {
+		let tab = tabsObj.add();
+		let canvas = tab.querySelector("canvas");
+		let paintObj = canvas.paintObj;
 
-	const tabBtnsElem = document.querySelector(".tab");
+		paintObj.setColor(sheet.fillColor);
+		paintObj.setSize(sheet.size);
+		paintObj.mode = sheet.mode;
+		paintObj.figure = sheet.figure;
+		paintObj.setCursor(sheet.cursor);
 
-	tabBtnsElem.addEventListener("click", (event) => {
-		let target = event.target;
+		let ctx = canvas.getContext('2d');
+		let img = new Image;
+		img.src = sheet.image;
+		img.onload = function () {
+			ctx.drawImage(img, 0, 0);
+		};
 
-		if (tabBtnsElem.querySelector(".active")) {
-			let sheetObj = arraySheets.filter((sheet) => sheet.id === tabBtnsElem.querySelector(".active").dataset.id);
-			
-			if(sheetObj.length === 0) {
-				mode = "brush";
-				colorElem.value = "#000";
-				outputElem.value = rngElem.value = 10;
-			}
-			else {
-				colorElem.value = sheetObj[0].color;
-				outputElem.value = rngElem.value = sheetObj[0].size;
-			}
-			console.log(tabBtnsElem.querySelector(".active").dataset.id)
-			return;
-		}
+		tabsObj.onOpen(tab);
 	});
+}
+
+function addEventListeners() {
+	const tabContentsElem = document.getElementById("tab-contents");
 
 	const dropDownElem = document.getElementById("dropdown");
 	const btnClearElem = document.getElementById("clearBtn");
@@ -45,90 +42,148 @@ function addEventListeners(canvas) {
 	let outputElem = document.getElementById('output');
 	let colorElem = document.getElementById("color");
 
-	let paintConstructor = new Paint();
+	function getActiveCanvas() {
+		return tabContentsElem.querySelector(".tabcontent.active canvas");
+	}
 
-	canvas.addEventListener('mousemove', function(event) {
+	tabContentsElem.addEventListener('mousemove', function(event) {
+		if (event.target.tagName !== "CANVAS") return;
 		canvasCoordXElem.innerHTML = event.offsetX;
 		canvasCoordYElem.innerHTML = event.offsetY;
 	});
 
-	canvas.addEventListener('mousedown', function(event) {
-		paintConstructor.mouseMoveHandler(event, canvas, colorElem.value, outputElem.value);
-	});
+	tabsObj.onOpen = function(tab) {
+		let paintObj = tab.querySelector("canvas").paintObj;
+		outputElem.value = rngElem.value = paintObj.size;
+		colorElem.value = paintObj.fillColor;
+	}
 
 	colorElem.addEventListener('input', function() {
-		paintConstructor.changeColor(canvas, arraySheets, colorElem.value, outputElem.value);
-	});
-
-	btnBrushElem.addEventListener('click', function() {
-		canvas.style.cursor = 'auto';
-		mode = "brush";
-	});
-
-	canvas.addEventListener('mousedown', function(event) {
-		paintConstructor.drawFigure(event, canvas, outputElem.value, colorElem);
+		let canvas = getActiveCanvas();
+		canvas.paintObj.setColor(colorElem.value);
 	});
 
 	rngElem.addEventListener('input', function() {
-		paintConstructor.getSizeFromRange(canvas, arraySheets, colorElem.value, outputElem, rngElem);
+		outputElem.value = rngElem.value;
+
+		let canvas = getActiveCanvas();
+		canvas.paintObj.setSize(this.value);
 	});
 
 	btnClearElem.addEventListener('click', function() {
-		if (canvas.closest(".active")) {
-			paintConstructor.clearAll(canvas);
-		}
+		let canvas = getActiveCanvas();
+		canvas.paintObj.clear();
+	});
+
+	btnBrushElem.addEventListener('click', function() {
+		let canvas = getActiveCanvas();
+		canvas.paintObj.setMode("brush");
 	});
 
 	dropDownElem.addEventListener('click', function(event) {
-		paintConstructor.getCursor(event, canvas, colorElem.value, outputElem.value);
+		let target = event.target;
+		if (target.tagName != 'SPAN') return;
+
+		let canvas = getActiveCanvas();
+		canvas.paintObj.getCursor(target.innerHTML);
+	});
+
+	window.addEventListener('beforeunload', function(e) {
+		//(e || window.event).returnValue = null;
+		let canvases = document.querySelectorAll("canvas");
+		if (!canvases && !canvases.length) return null;
+
+		let arraySheets = [];
+
+		canvases.forEach((canvas) => {
+			let paintObj = canvas.paintObj;
+			let sheet = {
+				fillColor: paintObj.fillColor,
+				size: paintObj.size,
+				mode: paintObj.mode,
+				figure: paintObj.figure,
+				cursor: paintObj.cursor,
+				image: paintObj.canvas.toDataURL()
+			};
+
+			arraySheets.push(sheet);
+		});
+		localStorage.setItem("CanvasSheets", JSON.stringify(arraySheets));
+	});
+}
+
+function Paint(canvas) {
+	this.canvas = canvas;
+	this.fillColor = "#000000";
+	this.mode = "brush";
+	this.figure = "";
+	this.size = 10;
+	this.cursor = "auto";
+	this.image = "";
+
+	let self = this;
+
+	canvas.addEventListener('mousedown', function(event) {
+		self.mouseMoveHandler(event);
+		self.drawFigure(event);
 	});
 
 	window.onmouseup = function() {
 		canvas.onmousemove = null;
 	}
-}
 
-function Paint() {
-	this.clearAll = function(canvas) {
+	this.clear = function() {
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 	}
 
-	this.getCursor = function(event, canvas, fillColor, size) {
-		mode = "figure";
-		let target = event.target;
-		if (target.tagName != 'SPAN') return;
-		figure = target.innerHTML;
-		getFigureForCursor(canvas, fillColor, size);
+	this.getCursor = function(figure) {
+		this.mode = "figure";
+		this.figure = figure;
+		getFigureForCursor();
 	}
 
-	this.getSizeFromRange = function(canvas, arraySheets, fillColor, outputElem, rngElem) {
-		outputElem.value = rngElem.value;
-		console.log(canvas.parentElement.id)
-		setSheetInLS(canvas.parentElement.id, fillColor, outputElem.value, arraySheets);
-		getFigureForCursor(canvas, fillColor, outputElem.value);
+	this.setCursor = function(cursor) {
+		self.cursor = cursor;
+
+		if (cursor === "auto") {
+			canvas.style.cursor = cursor;
+			return;
+		}
+		canvas.style.cursor = 'url(' + cursor + '), auto';
+	}
+
+	this.setSize = function(size) {
+		this.size = +size;
+		getFigureForCursor();
 	} 
 
-	this.changeColor = function(canvas, arraySheets, fillColor, size) {
-		setSheetInLS(canvas.parentElement.id, fillColor, size, arraySheets);
-		getFigureForCursor(canvas, fillColor, size);
+	this.setColor = function(fillColor) {
+		this.fillColor = fillColor;
+		getFigureForCursor();
 	}
 
-	this.drawFigure = function(event, canvas, size, colorElem) {
-		if (mode !== "figure") return;
+	this.setMode = function(mode) {
+		this.mode = mode;
+		this.setCursor('auto');
+	}
+
+	this.drawFigure = function(event) {
+		if (self.mode !== "figure") return;
 		const ctx = canvas.getContext('2d');
-		ctx.strokeStyle = colorElem.value;
-		ctx.fillStyle = colorElem.value;
-		getFigure(ctx, size, figure, event.offsetX, event.offsetY);
+		ctx.strokeStyle = self.fillColor;
+		ctx.fillStyle = self.fillColor;
+		getFigure(ctx, self.size, self.figure, event.offsetX, event.offsetY);
 	}
 
-	this.mouseMoveHandler = function(event, canvas, fillColor, size) {
-		if (mode !== "brush") return;
+	this.mouseMoveHandler = function(event) {
+		if (self.mode !== "brush") return;
 		if (canvas && canvas.getContext) {
 			const ctx = canvas.getContext('2d');
-			ctx.fillStyle = fillColor;
+			ctx.fillStyle = self.fillColor;
+
 			canvas.onmousemove = function(event) {
-				ctx.fillRect(event.offsetX - size / 2, event.offsetY - size / 2, size, size);
+				ctx.fillRect(event.offsetX - self.size / 2, event.offsetY - self.size / 2, self.size, self.size);
 			};
 			canvas.onmouseup = function() {
 				canvas.onmousemove = null;
@@ -136,25 +191,18 @@ function Paint() {
 		}
 	}
 
-	function setSheetInLS(id, color, size, arraySheets) {
-		let sheet = {
-			id,
-			color,
-			size
-		};
-		arraySheets = arraySheets.concat(sheet);
-		localStorage.setItem("CanvasSheets", JSON.stringify(arraySheets));
-	}
-
-	function getFigureForCursor(canvas, fillColor, size) {
-		if (mode !== "figure") return;
+	function getFigureForCursor() {
+		if (self.mode !== "figure") return;
 
 		let cursor = document.createElement('canvas');
 		let ctxCurs = cursor.getContext('2d');
-		cursor.width = +size + 2;
-		cursor.height = +size + 2;
-		ctxCurs.strokeStyle = fillColor;
-		getFigure(ctxCurs, +size, figure, 1, 1);
-		canvas.style.cursor = 'url(' + cursor.toDataURL() + '), auto';
+		cursor.width = self.size + 2;
+		cursor.height = self.size + 2;
+		ctxCurs.strokeStyle = self.fillColor;
+
+		getFigure(ctxCurs, self.size, self.figure, 1, 1);
+
+		self.setCursor(cursor.toDataURL());
 	}
 }
+
