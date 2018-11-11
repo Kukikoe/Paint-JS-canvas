@@ -10,7 +10,7 @@ body {
 .tab-contents {
     border: 1px solid black;
     width: 650px;
-    height: initial;
+    height: 650px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -118,19 +118,88 @@ body {
 	padding-right: 3px;
 }
 
+.paint-container {
+	display: flex;
+	justify-content: center;
+	position: relative;
+	right: 165px;
+}
+
+.layers-block {
+	margin-right: 30px;
+	height: 600px;
+	border: 1px solid #000;
+	position: relative;
+	overflow: auto;
+}
+
+.layers-block__buttons {
+	width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding: 5px;
+  border-top: 1px solid #000;
+  background-color: #eee;
+}
+
+.btn-layers {
+	border: none;
+	background-color: #aaa;
+	padding: 5px;
+}
+
+.layer {
+	display: flex;
+	padding: 10px;
+	border-bottom: 1px solid black;
+}
+
+.layer.active {
+	background-color: #eee;
+}
+
+.layer__delete {
+	background-size: 50%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-image: url(../img/waste-bin.svg);
+	display: flex;
+	width: 27px;
+	height: 26px;
+	margin-left: 5px;
+}
+
+.layer__delete:hover {
+border-radius: 50%;
+background-color: #ccc;
+}
+
+.layer__preview {
+	border: 1px solid black;
+	width: 250px;
+	height: 100px;
+	margin-left: 10px;
+	background-color: #fff;
+}
+
 /* Style the tab */
 .tab {
 	align-items: center;
 	width: 650px;
-	height: 46px;
+	overflow: auto;
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: 5px;
 	padding-right: 5px;
-	overflow: hidden;
+	
 	border: 1px solid #ccc;
 	background-color: #f1f1f1;
+	position: relative; 
+}
+
+.canvas {
+	position: absolute; 
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -145,6 +214,7 @@ body {
 	padding: 14px 16px;
 	border-radius: 20px 20px 0 0;
 	transition: 0.3s;
+	flex-shrink: 0;
 }
 
 /* Change background color of buttons on hover */

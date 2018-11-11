@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
-	<link href="css/style.css" rel="stylesheet">
+	<link href="src/css/style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="buttons-container">
@@ -31,30 +31,44 @@
 		</div>
 	</div>
 
-	<!-- Tab links -->
-	<div class="tab">
-<!-- 		<div class="tablinks active" data-id="tab-1">
-	<span class="sheet-name">Sheet 1</span>
-	<div class="tablinks__close">
-	</div>
-</div> -->
-		<div class="tablinks add-tab" data-id="add-tab">+</div>
-	</div>
+	<div class="paint-container">
 
-	<!-- Tab content -->
-	<div class="tab-contents" id="tab-contents">
-<!-- 		<div id="tab-1" class="tabcontent active">
-		<canvas class="canvas" width="650" height="650"></canvas>
-</div> -->
-	</div>
+		<div class="layers-block">
+			<div class="layers-block__buttons">
+				<button class="btn-layers add-layer">add</button>
+				<!-- <button class="btn-layers delete-layer">delete</button> -->
+			</div>
+			<div class="layers-block__layers">
+				<div class="layer active" id="layer-1" data-id="1">
+					<span class="layer__number">1</span>
+					<div class="layer__preview"></div>
+					<div class="layer__delete"></div>
+				</div>
+			</div>
+		</div>
 
-	<div class="canvas-coordinates">
-		<span class="canvas-coord-x">X: <span id="canvasCoordX"></span></span>
+		<!-- Tab links -->
+		<div class="paint-block">
+			<div class="tab">
 
-		<span class="canvas-coord-y">Y: <span id="canvasCoordY"></span></span>
+				<div class="tablinks add-tab" data-id="add-tab">+</div>
+			</div>
+
+			<!-- Tab content -->
+			<div class="tab-contents" id="tab-contents">
+			</div>
+
+			<div class="canvas-coordinates">
+				<span class="canvas-coord-x">X: <span id="canvasCoordX"></span></span>
+
+				<span class="canvas-coord-y">Y: <span id="canvasCoordY"></span></span>
+			</div>
+		</div>
 	</div>
-	<script src="js/getFigure.js"></script>
-	<script src="js/script.js"></script>
-	<script src="js/paint.js"></script>
+	
+	<script src="src/js/getFigure.js"></script>
+	<script src="src/js/script.js"></script>
+	<script src="src/js/paint.js"></script>
+	<script src="src/js/layers.js"></script>
 </body>
 </html>

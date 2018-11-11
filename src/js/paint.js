@@ -120,10 +120,12 @@ function Paint(canvas) {
 	this.size = 10;
 	this.cursor = "auto";
 	this.image = "";
+	this.disabled = false;
 
 	let self = this;
 
 	canvas.addEventListener('mousedown', function(event) {
+		if (self.disabled) return;
 		self.mouseMoveHandler(event);
 		self.drawFigure(event);
 	});
