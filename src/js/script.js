@@ -71,7 +71,6 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 		const tab = document.getElementById(btn.dataset.id);
 		tab.classList.add("active");
 		btn.classList.add("active");
-
 		this.onOpen(tab, btn);
 	}
 
@@ -83,20 +82,39 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 		canvas.paintObj = new Paint(canvas);
 		tabContentsElem.appendChild(newCanvasForTab);
 		return newCanvasForTab;
-		//console.dir(canvas)
-		//addEventListeners(newCanvasForTab.querySelector(".canvas"));
 	}
 
 	function createSheet(id) {
 		let sheet = document.createElement("div");
 		sheet.id = id;
 		sheet.classList.add("tabcontent");
+
+		let layerBlock = document.createElement("div");
+		layerBlock.className = "layers-block";
+		layerBlock.dataset.tabId = id;
+		layerBlock.dataset.id = id + "__layers-block";
+
+		let buttonsBlock = document.createElement("div");
+		buttonsBlock.className = "layers-block__buttons";
+
+		let btnAddLayer = document.createElement("button");
+		btnAddLayer.className = "btn-layers add-layer";
+		btnAddLayer.innerHTML = "add";
+		buttonsBlock.appendChild(btnAddLayer)
+
+		let layersBlockOfLayers = document.createElement("div");
+		layersBlockOfLayers.className = "layers-block__layers";
+		layerBlock.appendChild(buttonsBlock);
+		layerBlock.appendChild(layersBlockOfLayers);
+		sheet.appendChild(layerBlock);
+
 		let canvas = document.createElement("canvas");
 		canvas.classList.add("canvas");
+		canvas.classList.add("active");
 		canvas.id = "canvas-" + id + "__layer-1";
 		canvas.dataset.tabId = id;
 		canvas.dataset.id = 1;
-		canvas.width = "650";
+		canvas.width = "850";
 		canvas.height = "650";
 		sheet.appendChild(canvas);
 		return sheet;

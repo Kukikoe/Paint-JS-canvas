@@ -5,10 +5,19 @@ function init() {
 }
 
 function render() {
+	const tabContentsElem = document.querySelector(".tab-contents");
+	//const layerElem = tabContentsElem.querySelectorAll(".tabcontent");
+	//console.log(tabContentsElem.querySelectorAll(".tabcontent"))
+	let layer = new Layer();
+
 	let arraySheets = JSON.parse(localStorage.getItem("CanvasSheets"));
+
 	arraySheets.forEach((sheet) => {
 		let tab = tabsObj.add();
+		const layerElem = tab.querySelector(".layers-block__layers");
+		console.log(layerElem)
 		let canvas = tab.querySelector("canvas");
+		console.log(canvas)
 		let paintObj = canvas.paintObj;
 
 		paintObj.setColor(sheet.fillColor);
@@ -18,11 +27,15 @@ function render() {
 		paintObj.setCursor(sheet.cursor);
 
 		let ctx = canvas.getContext('2d');
-		let img = new Image;
-		img.src = sheet.image;
-		img.onload = function () {
-			ctx.drawImage(img, 0, 0);
-		};
+		for (let i = 0; i < sheet.layers.length; i++) {
+			//console.log(sheet.layers[i])
+			layer.renderLayer(sheet.layers[i].idOfLayer, layerElem);
+			let img = new Image;
+			img.src = sheet.layers[i].image;
+			img.onload = function () {
+				ctx.drawImage(img, 0, 0);
+			};
+		}
 
 		tabsObj.onOpen(tab);
 	});
@@ -43,7 +56,7 @@ function addEventListeners() {
 	let colorElem = document.getElementById("color");
 
 	function getActiveCanvas() {
-		return tabContentsElem.querySelector(".tabcontent.active canvas");
+		return tabContentsElem.querySelector(".tabcontent.active canvas.active");
 	}
 
 	tabContentsElem.addEventListener('mousemove', function(event) {
@@ -94,13 +107,14 @@ function addEventListeners() {
 		if (!canvases && !canvases.length) return null;
 
 		let arraySheets = [];
-//console.log(canvases)
 		canvases.forEach((canvas) => {
 			let paintObj = canvas.paintObj;
 			let arrayCanvas = canvas.parentElement.querySelectorAll("canvas");
+			console.log(arrayCanvas)
 			let temp = [];
 			for (let i = 0; i < arrayCanvas.length; i++) {
 				temp.push(arrayCanvas[i]);
+
 			}
 			let layers = getLayers(temp);
 			temp = [];
@@ -110,7 +124,6 @@ function addEventListeners() {
 				mode: paintObj.mode,
 				figure: paintObj.figure,
 				cursor: paintObj.cursor,
-				image: paintObj.canvas.toDataURL(),
 				layers
 			};
 			arraySheets.push(sheet);
@@ -131,6 +144,8 @@ function getLayers(array) {
 	}
 	return arrayOfCanvas;
 }
+
+//function PaintOptions
 
 function Paint(canvas) {
 	this.canvas = canvas;

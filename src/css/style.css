@@ -9,7 +9,7 @@ body {
 
 .tab-contents {
     border: 1px solid black;
-    width: 650px;
+    width: 1150px;
     height: 650px;
     margin-left: auto;
     margin-right: auto;
@@ -121,17 +121,27 @@ body {
 .paint-container {
 	display: flex;
 	justify-content: center;
-	position: relative;
-	right: 165px;
+
 }
 
 .layers-block {
-	margin-right: 30px;
+	display: inline-block;
+	/* margin-right: 30px; */
 	width: 300px;
-	height: 600px;
-	border: 1px solid #000;
+	height: 648px;
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
 	position: relative;
+	
+}
+
+.layers-block__layers {
+	/* display: none; */
+	height: 648px;
 	overflow: auto;
+	/* display: inline-block; */
+	/* width: 300px; */
+	
 }
 
 .layers-block__buttons {
@@ -187,7 +197,7 @@ background-color: #ccc;
 /* Style the tab */
 .tab {
 	align-items: center;
-	width: 650px;
+	width: 1150px;
 	overflow: auto;
 	display: flex;
 	margin-left: auto;
@@ -202,6 +212,11 @@ background-color: #ccc;
 
 .canvas {
 	position: absolute; 
+	pointer-events: none;
+}
+
+.canvas.active {
+	pointer-events: auto;
 }
 
 /* Style the buttons that are used to open the tab content */
