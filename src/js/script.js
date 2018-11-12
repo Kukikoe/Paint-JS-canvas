@@ -30,7 +30,7 @@ function initTabs() {
 }
 
 function Tabs(tabBtnsElem, tabContentsElem) {
-	this.add = function() {
+	this.add = function(shouldCreateCanvas = true) {
 		Tabs.count++;
 		let newTab = document.createElement("div");
 		newTab.className = "tablinks";
@@ -47,7 +47,7 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 
 		let position = tabBtnsElem.children[tabBtnsElem.children.length - 1];
 		tabBtnsElem.insertBefore(newTab, position);
-		let tabCanvas = addSheetForTab(newTab.dataset.id);
+		let tabCanvas = addSheetForTab(newTab.dataset.id, shouldCreateCanvas);
 		this.open(newTab);
 		return tabCanvas;
 	}
@@ -76,15 +76,23 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 
 	this.onOpen = function() {}
 
-	function addSheetForTab(id) {
-		let newCanvasForTab = createSheet(id);
-		let canvas = newCanvasForTab.querySelector("canvas");
-		canvas.paintObj = new Paint(canvas);
-		tabContentsElem.appendChild(newCanvasForTab);
-		return newCanvasForTab;
+	function addSheetForTab(id, shouldCreateCanvas) {
+		let newSheetForTab = createSheet(id, shouldCreateCanvas);
+		const layerElem = newSheetForTab.querySelector(".layers-block__layers");
+
+		let paintOptions = new PaintOptions();
+		newSheetForTab.paintOptions = paintOptions;
+
+		if (shouldCreateCanvas) {
+			let layer = new Layers();
+			layer.add(newSheetForTab, layerElem, 1);
+		}
+
+		tabContentsElem.appendChild(newSheetForTab);
+		return newSheetForTab;
 	}
 
-	function createSheet(id) {
+	function createSheet(id, shouldCreateCanvas) {
 		let sheet = document.createElement("div");
 		sheet.id = id;
 		sheet.classList.add("tabcontent");
@@ -107,16 +115,6 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 		layerBlock.appendChild(buttonsBlock);
 		layerBlock.appendChild(layersBlockOfLayers);
 		sheet.appendChild(layerBlock);
-
-		let canvas = document.createElement("canvas");
-		canvas.classList.add("canvas");
-		canvas.classList.add("active");
-		canvas.id = "canvas-" + id + "__layer-1";
-		canvas.dataset.tabId = id;
-		canvas.dataset.id = 1;
-		canvas.width = "850";
-		canvas.height = "650";
-		sheet.appendChild(canvas);
 		return sheet;
 	}
 

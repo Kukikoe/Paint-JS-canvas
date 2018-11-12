@@ -192,6 +192,9 @@ background-color: #ccc;
 	height: 100px;
 	margin-left: 10px;
 	background-color: #fff;
+	background-size: 50%;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 /* Style the tab */

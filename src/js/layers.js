@@ -1,11 +1,10 @@
 function initLayers() {
-
 	const btnAddLayerElem = document.querySelector(".add-layer");
 	const tabContentsElem = document.querySelector("#tab-contents");
 	const btnDeleteLayerElem = document.querySelector(".delete-layer");
 	const layerBlockElem = document.querySelector(".layers-block");
 
-	let layer = new Layer();
+	let layer = new Layers();
 
 	tabContentsElem.addEventListener("click", function() {
 		let target = event.target;
@@ -14,7 +13,6 @@ function initLayers() {
 			const tabContentActiveElem = document.querySelector(".tabcontent.active");
 			const layerElem = tabContentActiveElem.querySelector(".layers-block__layers");
 			let newCanvas = layer.add(tabContentActiveElem, layerElem);
-			newCanvas.paintObj = new Paint(newCanvas);
 			return;
 		}
 
@@ -45,9 +43,9 @@ function initLayers() {
 	});
 }
 
-function Layer() {
-	this.add = function(activeTab, layerElem) {
-		let count = activeTab.lastChild.dataset.id;
+function Layers() {
+	this.add = function(activeTab, layerElem, id) {
+		let count = id || activeTab.lastChild.dataset.id;
 		++count;
 		let canvas = createCanvas(activeTab.id, count);
 		const arrayOfCanvas = activeTab.querySelectorAll(".canvas");
@@ -57,30 +55,26 @@ function Layer() {
 		canvas.classList.add("active");
 		activeTab.appendChild(canvas);
 		let layer = createLayer(count);
-		console.log(layer)
 		let allLayers = activeTab.querySelectorAll(".layer");
-		console.log(allLayers)
 		for (let i = 0; i < allLayers.length; i++) {
 			allLayers[i].classList.remove("active");
 		}
 		layer.classList.add("active");
 		layerElem.appendChild(layer);
 
+		let paintOptions = activeTab.paintOptions;
+		canvas.paintObj = new Paint(canvas, paintOptions);
 		return canvas;
 	}
-	this.delete = function(parentElem, tabContentsElem) {
-		deleteCanvas(parentElem.dataset.id, tabContentsElem);
-		parentElem.remove();
-	}
 
-	this.renderLayer = function(count, layerElem) {
-		let layer = createLayer(count);
-		let allLayers = document.querySelectorAll(".layer");
-		for (let i = 0; i < allLayers.length; i++) {
-			allLayers[i].classList.remove("active");
-		}
-		layer.classList.add("active");
-		layerElem.appendChild(layer);
+	this.delete = function(layerElem, tabContentsElem) {
+		const activeTabContent = tabContentsElem.querySelector(".tabcontent.active");
+		const layerBlock = activeTabContent.querySelector(".layers-block__layers");
+
+		deleteCanvas(layerElem.dataset.id, activeTabContent);
+		layerElem.remove();
+		if (!layerBlock.lastChild) return;
+		layerBlock.lastChild.classList.add("active");
 	}
 
 	function createLayer(count) {
@@ -112,8 +106,9 @@ function Layer() {
 		return canvas;
 	}
 
-	function deleteCanvas(id, tabContentsElem) {
-		const activeTabContent = tabContentsElem.querySelector(".tabcontent.active");
-		activeTabContent.querySelector(".canvas.active").remove();
+	function deleteCanvas(id, activeTabContent) {		
+		const canvasId = "canvas-" + activeTabContent.id + "__layer-" + id;
+		document.getElementById(canvasId).remove();
+		activeTabContent.lastChild.classList.add("active");
 	}
 }
