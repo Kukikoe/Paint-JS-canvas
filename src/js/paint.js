@@ -89,27 +89,47 @@ function addEventListeners() {
 	});
 
 	window.addEventListener('beforeunload', function(e) {
-		//(e || window.event).returnValue = null;
+		(e || window.event).returnValue = null;
 		let canvases = document.querySelectorAll("canvas");
 		if (!canvases && !canvases.length) return null;
 
 		let arraySheets = [];
-
+//console.log(canvases)
 		canvases.forEach((canvas) => {
 			let paintObj = canvas.paintObj;
+			let arrayCanvas = canvas.parentElement.querySelectorAll("canvas");
+			let temp = [];
+			for (let i = 0; i < arrayCanvas.length; i++) {
+				temp.push(arrayCanvas[i]);
+			}
+			let layers = getLayers(temp);
+			temp = [];
 			let sheet = {
 				fillColor: paintObj.fillColor,
 				size: paintObj.size,
 				mode: paintObj.mode,
 				figure: paintObj.figure,
 				cursor: paintObj.cursor,
-				image: paintObj.canvas.toDataURL()
+				image: paintObj.canvas.toDataURL(),
+				layers
 			};
-
 			arraySheets.push(sheet);
 		});
 		localStorage.setItem("CanvasSheets", JSON.stringify(arraySheets));
 	});
+}
+
+function getLayers(array) {
+	let arrayOfCanvas = [];
+	for (let i = 0; i < array.length; i++) {
+		let temp = {
+			idOfLayer: array[i].dataset.id,
+			idOfTab: array[i].dataset.tabId,
+			image: array[i].toDataURL(),
+		}
+		arrayOfCanvas.push(temp);
+	}
+	return arrayOfCanvas;
 }
 
 function Paint(canvas) {

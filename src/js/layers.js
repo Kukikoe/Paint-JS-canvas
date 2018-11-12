@@ -68,6 +68,7 @@ function Layer() {
 		canvas.classList.add("canvas");
 		canvas.id = "canvas-" + id + "__layer-" + count;
 		canvas.dataset.id = count;
+		canvas.dataset.tabId = id;
 		canvas.width = "650";
 		canvas.height = "650";
 		return canvas;

@@ -94,6 +94,7 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 		let canvas = document.createElement("canvas");
 		canvas.classList.add("canvas");
 		canvas.id = "canvas-" + id + "__layer-1";
+		canvas.dataset.tabId = id;
 		canvas.dataset.id = 1;
 		canvas.width = "650";
 		canvas.height = "650";
