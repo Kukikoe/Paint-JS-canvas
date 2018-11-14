@@ -62,8 +62,11 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 
 	this.open = function(btn) {
 		let tabContentsChildren = tabContentsElem.children;
+		if (tabContentsChildren.length === 0) {
+			return;
+		}
+		
 		let tabBtnsChildren = tabBtnsElem.children;
-
 		for (let i = 0; i < tabContentsChildren.length; i++) {
 			tabContentsChildren[i].classList.remove("active");
 			tabBtnsChildren[i].classList.remove("active");

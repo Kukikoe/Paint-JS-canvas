@@ -33,4 +33,7 @@ function getFigure(ctx, size, figure, x, y) {
 	}
 	return ctx;
 }
-module.exports = getFigure;
+
+if (typeof module !== 'undefined') {
+	module.exports = getFigure;
+}

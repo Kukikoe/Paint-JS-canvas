@@ -6,22 +6,17 @@ function init() {
 
 function render() {
 	const tabContentsElem = document.querySelector("#tab-contents");
-	let arraySheets = JSON.parse(localStorage.getItem("CanvasSheets"));
+	let arraySheets = JSON.parse(localStorage.getItem("CanvasSheets")) || [];
+/*	if (arraySheets.length === 0) {
+		return;
+	}*/
+	console.log(arraySheets)
 
 	arraySheets.forEach((tab) => {
 		const tabElem = tabsObj.add(false);
 		let layer = new Layers();
 
 		const layerElem = tabElem.querySelector(".layers-block__layers");
-		
-
-		let paintOptions = tabElem.paintOptions;
-
-		paintOptions.setColor(tab.paintOptions.fillColor);
-		paintOptions.setSize(tab.paintOptions.size);
-		paintOptions.mode = tab.paintOptions.mode;
-		paintOptions.figure = tab.paintOptions.figure;
-		paintOptions.setCursor(tab.paintOptions.cursor);
 
 		for (let i = 0; i < tab.layers.length; i++) {
 			let canvas = layer.add(tabElem, layerElem, tab.layers[i].id);
@@ -35,6 +30,12 @@ function render() {
 				ctx.drawImage(img, 0, 0);
 			};
 		}
+		let paintOptions = tabElem.paintOptions;
+		paintOptions.setColor(tab.paintOptions.fillColor);
+		paintOptions.setSize(tab.paintOptions.size);
+		paintOptions.mode = tab.paintOptions.mode;
+		paintOptions.figure = tab.paintOptions.figure;
+		paintOptions.setCursor(tab.paintOptions.cursor);
 
 		tabsObj.onOpen(tabElem);
 	});
@@ -174,6 +175,7 @@ function PaintOptions() {
 
 		self.paintings.forEach((paint) => {
 			let canvas = paint.canvas;
+
 			if (cursor === "auto") {
 				canvas.style.cursor = cursor;
 				return;
@@ -203,11 +205,14 @@ function PaintOptions() {
 	}
 }
 
+
 function Paint(canvas, options) {
 	this.canvas = canvas;
 	this.options = options;
 
 	options.paintings.push(this);
+	// set cursor from options for new created paint
+	options.setCursor(options.cursor);
 
 	let self = this;
 
@@ -216,9 +221,9 @@ function Paint(canvas, options) {
 		self.drawFigure(event);
 	});
 
-	window.onmouseup = function() {
+	window.addEventListener('mouseup', function() {		
 		canvas.onmousemove = null;
-	}
+	});
 
 	this.clear = function() {
 		const ctx = canvas.getContext('2d');
@@ -231,6 +236,7 @@ function Paint(canvas, options) {
 		ctx.strokeStyle = self.options.fillColor;
 		ctx.fillStyle = self.options.fillColor;
 		getFigure(ctx, self.options.size, self.options.figure, event.offsetX, event.offsetY);
+		getPreviewLayer(event.path[0]);
 	}
 
 	this.mouseMoveHandler = function(event) {
@@ -243,9 +249,16 @@ function Paint(canvas, options) {
 				ctx.fillRect(event.offsetX - self.options.size / 2, event.offsetY - self.options.size / 2, self.options.size, self.options.size);
 			};
 			canvas.onmouseup = function() {
+				getPreviewLayer(canvas);
 				canvas.onmousemove = null;
 			}
 		}
+	}
+
+	function getPreviewLayer(canvas) {
+		const arrayLayersElem = canvas.parentElement.querySelector(".layer.active");
+		const layerPreviewElem = arrayLayersElem.querySelector(".layer__preview");
+		layerPreviewElem.style.backgroundImage = "url(" + canvas.toDataURL() + ")";
 	}
 }
 
