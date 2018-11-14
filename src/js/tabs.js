@@ -1,9 +1,3 @@
-window.addEventListener("load", function() {
-	initTabs();
-	init();
-	initLayers();
-});
-
 function initTabs() {
 	const tabBtnsElem = document.querySelector(".tab");
 	const tabContentsElem = document.querySelector(".tab-contents");
@@ -65,7 +59,7 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 		if (tabContentsChildren.length === 0) {
 			return;
 		}
-		
+
 		let tabBtnsChildren = tabBtnsElem.children;
 		for (let i = 0; i < tabContentsChildren.length; i++) {
 			tabContentsChildren[i].classList.remove("active");

@@ -1,8 +1,5 @@
 function initLayers() {
-	const btnAddLayerElem = document.querySelector(".add-layer");
 	const tabContentsElem = document.querySelector("#tab-contents");
-	const btnDeleteLayerElem = document.querySelector(".delete-layer");
-	const layerBlockElem = document.querySelector(".layers-block");
 
 	let layer = new Layers();
 
