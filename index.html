@@ -8,18 +8,24 @@
 <body>
 	<div class="buttons-container">
 		<div class="title">
-		<img src="http://s1.iconbird.com/ico/2013/6/380/w256h2561372591860Brush.png" class="brush-img" alt="">
+		<img src="src/img/LogoBrush.png" class="brush-img-for-logo" alt="">
 		Paint App
 	</div>
-		<button class="btn clear-btn" id="clearBtn">Clear</button>
-		<button class="btn brush-btn" id="brushBtn">Brush</button>
+		<button class="btn clear-btn" id="clearBtn">
+			<img src="src/img/eraser.svg" class="btn-img eraser-img" alt="">
+		</button>
+		<button class="btn brush-btn" id="brushBtn">
+			<img src="src/img/paintbrush.svg" class="btn-img brush-img" alt="">
+		</button>
 		<div class="dropdown">
-			<button class="btn dropbtn">Figures</button>
+			<button class="btn dropbtn">
+				<img src="src/img/square.svg" class="btn-img figure-img" alt="">
+			</button>
 			<div class="dropdown-content" id="dropdown">
-				<span>Circle</span>
-				<span>Square</span>
-				<span>Triangle</span>
-				<span>Hexagon</span>
+				<span  data-figure="circle"><img src="src/img/oval.svg" class="btn-img oval-img" alt=""></span>
+				<span  data-figure="square"><img src="src/img/square-black.svg" class="btn-img square-black-img" alt=""></span>
+				<span  data-figure="triangle"><img src="src/img/triangle.svg" class="btn-img triangle-img" alt=""></span>
+				<span  data-figure="hexagon"><img src="src/img/hexagon.svg" class="btn-img hexagon-img" alt=""></span>
 			</div>
 		</div>
 		<span class="color-box">
@@ -28,6 +34,11 @@
 		<div class="wrp">
 			<input type="range" min="1" max="120" value="1" id="range">
 			<input class="output" id="output" type="number" value="1" readonly>
+		</div>
+		<div class="canvas-coordinates">
+			<span class="canvas-coord-x">X: <span id="canvasCoordX"></span></span>
+
+			<span class="canvas-coord-y">Y: <span id="canvasCoordY"></span></span>
 		</div>
 	</div>
 
@@ -42,12 +53,6 @@
 
 			<!-- Tab content -->
 			<div class="tab-contents" id="tab-contents">
-			</div>
-
-			<div class="canvas-coordinates">
-				<span class="canvas-coord-x">X: <span id="canvasCoordX"></span></span>
-
-				<span class="canvas-coord-y">Y: <span id="canvasCoordY"></span></span>
 			</div>
 		</div>
 	</div>

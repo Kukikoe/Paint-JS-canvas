@@ -9,20 +9,25 @@ body {
 }
 
 .tab-contents {
-    border: 1px solid black;
-    width: 1150px;
-    height: 650px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+	position: relative;
+	width: 100%;
+	height: calc(100vh - 50px - 50px); /*50px tabs, 50px header */
+	margin-left: auto;
+	margin-right: auto;
+	border-top: 1px solid #e2e1e1;
+}
 
 .buttons-container {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 20px;
-	margin-top: 20px;
 	text-align: center;
+	position: fixed;
+	z-index: 20;
+	background-color: #fff;
+	width: 100%;
+	height: 50px;
+	box-shadow: 0 0 10px 2px rgba(170, 170, 170, 0.5);
 }
 
 .title {
@@ -33,21 +38,33 @@ body {
 	align-items: center;
 }
 
-.brush-img {
+.brush-img-for-logo {
 	width: 30px;
 	margin-right: 5px;
 }
 
 .btn {
-	background-color: #4CAF50;
+	background-color: #6b6b6b;
 	color: white;
-	padding: 16px;
+	padding: 9px 9px;
 	font-size: 16px;
 	border: none;
 	cursor: pointer;
 	outline: none;
 	margin-right: 10px;
+	border-radius: 150px;
+	display: flex;
+	align-items: center;
 }
+
+.btn:hover {
+	background-color: #514d4d;
+}
+
+.btn-img {
+	width: 22px;
+}
+
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -60,7 +77,7 @@ body {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: 80px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
@@ -84,7 +101,7 @@ body {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+    background-color: #514d4d;
 }
 
 .color-box {
@@ -124,41 +141,50 @@ body {
 
 }
 
+.paint-block {
+	width: 100%;
+	margin-top: 50px;
+}
+
 .layers-block {
 	display: inline-block;
 	width: 300px;
-	height: 648px;
-	border-right: 1px solid #000;
-	border-bottom: 1px solid #000;
+	height: 100%;
+	border-right: 1px solid #e2e1e1;
+	border-bottom: 1px solid #e2e1e1;
 	position: relative;
 	
 }
 
 .layers-block__layers {
-	height: 648px;
+	height: calc(100% - 36px);
 	overflow: auto;
 }
 
 .layers-block__buttons {
 	width: 100%;
-
   position: absolute;
   bottom: 0;
   padding: 5px;
-  border-top: 1px solid #000;
+  border-top: 1px solid #e2e1e1;
   background-color: #eee;
 }
 
 .btn-layers {
 	border: none;
-	background-color: #aaa;
 	padding: 5px;
+	outline: none;
+	display: flex;
+	margin-left: auto;
+	border-radius: 3px;
+	background-color: #6b6b6b;
+	color: #fff;
 }
 
 .layer {
 	display: flex;
 	padding: 10px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #e2e1e1;
 }
 
 .layer.active {
@@ -182,7 +208,8 @@ body {
 }
 
 .layer__preview {
-	border: 1px solid black;
+	border-radius: 8px;
+	border: 1px solid #afafaf;
 	width: 250px;
 	height: 100px;
 	margin-left: 10px;
@@ -195,20 +222,21 @@ body {
 /* Style the tab */
 .tab {
 	align-items: center;
-	width: 1150px;
+	width: 100%;
 	overflow: auto;
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: 5px;
 	padding-right: 5px;
-	
-	border: 1px solid #ccc;
+	padding-top: 4px;
 	background-color: #f1f1f1;
 	position: relative; 
 }
 
 .canvas {
+	width: calc(100vw - 300px - 17px); /*300px sidebar, 17px scroll */
+	height: 100%;
 	position: absolute; 
 	pointer-events: none;
 }
@@ -255,6 +283,7 @@ body {
 
 /* Style the tab content */
 .tabcontent {
+	height: 100%;
 	display: none;
 }
 
@@ -280,15 +309,11 @@ background-color: #ccc;
 
 .canvas-coordinates {
 	text-align: center;
-	margin-top: 20px;
+	    margin-left: 20px;
 }
 
 .canvas-coord-x, .canvas-coord-y {
-	padding: 5px;
 	display: inline-block;
 	width: 100px;
 }
 
-.canvas-coord-y {
-	margin-left: 10px;
-}

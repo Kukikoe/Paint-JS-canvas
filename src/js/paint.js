@@ -34,6 +34,7 @@ function addEventListeners() {
 		let paintOptions = tab.paintOptions;
 		outputElem.value = rngElem.value = paintOptions.size;
 		colorElem.value = paintOptions.fillColor;
+		let canvas = tab.querySelector(".canvas.active");
 	}
 
 	colorElem.addEventListener('input', function() {
@@ -60,10 +61,13 @@ function addEventListeners() {
 
 	dropDownElem.addEventListener('click', function(event) {
 		let target = event.target;
-		if (target.tagName != 'SPAN') return;
+		if (target.tagName === 'IMG') {
+			target = target.parentElement;
+		}
+		if (target.tagName != 'SPAN' ) return;
 
 		let tab = getActiveTab();
-		tab.paintOptions.getCursor(target.innerHTML);
+		tab.paintOptions.getCursor(target.dataset.figure);
 	});
 }
 

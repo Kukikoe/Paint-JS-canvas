@@ -50,8 +50,8 @@ function Layers() {
 
 		this.makeActive(canvas, allCanvases);
 		activeTab.appendChild(canvas);
-		let layer = createLayer(count);
 
+		let layer = createLayer(count);
 		this.makeActive(layer, allLayers);
 		layerElem.appendChild(layer);
 
@@ -118,8 +118,8 @@ function Layers() {
 		canvas.id = "canvas-" + id + "__layer-" + count;
 		canvas.dataset.id = count;
 		canvas.dataset.tabId = id;
-		canvas.width = "850";
-		canvas.height = "650";
+		canvas.width = (document.documentElement.clientWidth - 300).toString();
+		canvas.height = (document.documentElement.clientHeight - 100).toString();
 		return canvas;
 	}
 
