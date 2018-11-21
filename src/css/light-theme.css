@@ -1,0 +1,55 @@
+.buttons-container {
+    background-color: #fff;
+    box-shadow: 0 0 10px 2px rgba(170, 170, 170, 0.5);
+}
+
+.btn {
+    background-color: #6b6b6b;
+}
+
+.btn:hover {
+    background-color: #514d4d;
+}
+.btn svg {
+    fill: #fff;
+}
+
+.buttons-container .svg-logo {
+    fill: #000;
+}
+
+.dropdown-content-settings span:hover {background-color: #f1f1f1}
+/* Change color of dropdown links on hover */
+.dropdown-content span:hover {background-color: #f1f1f1}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #514d4d;
+}
+
+
+.layers-block__buttons {
+    background-color: #eee;
+}
+
+.tab {
+    background-color: #f1f1f1;
+}
+
+.title {
+    color: #000;
+}
+
+.canvas-coordinates {
+    color: #000;
+}
+
+/* Change background color of buttons on hover */
+.tablinks:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tablinks.active {
+    background-color: #fff;
+}
