@@ -279,7 +279,6 @@ body {
 	display: flex;
 	align-items: center;
 	position: relative;
-	background-color: inherit;
 	border: none;
 	outline: none;
 	cursor: pointer;

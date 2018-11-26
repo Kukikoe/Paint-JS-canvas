@@ -32,7 +32,11 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 
 		let span = document.createElement("span");
 		span.className = "sheet-name";
-		span.innerHTML = 'Sheet ' + Tabs.count;
+		span.innerHTML = " " + Tabs.count;
+		let spanForName = document.createElement("span");
+		spanForName.dataset.lang = "Sheet";
+		spanForName.innerHTML = langObj("Sheet");
+		span.prepend(spanForName);
 
 		let btnDel = document.createElement("div");
 		btnDel.className = "tablinks__close";
@@ -104,6 +108,7 @@ function Tabs(tabBtnsElem, tabContentsElem) {
 
 		let btnAddLayer = document.createElement("button");
 		btnAddLayer.className = "btn-layers add-layer";
+		btnAddLayer.dataset.lang = "add";
 		btnAddLayer.innerHTML = "add";
 		buttonsBlock.appendChild(btnAddLayer)
 

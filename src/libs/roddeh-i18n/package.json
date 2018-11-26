@@ -1,0 +1,63 @@
+{
+  "_from": "roddeh-i18n",
+  "_id": "roddeh-i18n@1.1.1",
+  "_inBundle": false,
+  "_integrity": "sha512-lNC6f8CsbZZcgky0zbVMrVGnv0hcnHF5JPlCm2BICDCojYsP5t3DSx4H3G81JoPiU0Ps5LvEhS+gtNa24+FOlA==",
+  "_location": "/roddeh-i18n",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "roddeh-i18n",
+    "name": "roddeh-i18n",
+    "escapedName": "roddeh-i18n",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/roddeh-i18n/-/roddeh-i18n-1.1.1.tgz",
+  "_shasum": "b04869eeffdf1c935c52f0ba102e1d41b90effae",
+  "_spec": "roddeh-i18n",
+  "_where": "D:\\Projects\\projects for curs\\painter",
+  "author": {
+    "name": "Simon Rodwell",
+    "url": "https://github.com/roddeh"
+  },
+  "bugs": {
+    "url": "https://github.com/roddeh/i18njs/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Marek Sierociński",
+      "url": "https://github.com/marverix"
+    }
+  ],
+  "deprecated": false,
+  "description": "Internationalisation library for JS projects",
+  "devDependencies": {
+    "coffeescript": "<2.0.0"
+  },
+  "homepage": "http://i18njs.com",
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "i18njs"
+  ],
+  "license": "MIT",
+  "main": "dist/i18n.js",
+  "name": "roddeh-i18n",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roddeh/i18njs.git"
+  },
+  "scripts": {
+    "build": "npx coffee --compile --output dist/ src/",
+    "test": "npx coffee --compile tests/test.coffee; nodejs tests/test.js"
+  },
+  "version": "1.1.1"
+}
