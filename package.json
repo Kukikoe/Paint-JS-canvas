@@ -11,7 +11,10 @@
     "roddeh-i18n": "^1.1.1"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "jsdom": "13.0.0",
+    "jsdom-global": "3.0.2",
+    "mocha": "^5.2.0",
+    "sinon": "^7.1.1"
   },
   "scripts": {
     "test": "mocha"

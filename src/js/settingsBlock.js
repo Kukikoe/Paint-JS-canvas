@@ -96,7 +96,6 @@ function changeTheme(href) {
     let head  = document.getElementsByTagName('head')[0];
     let cssId = 'theme';  // you could encode the css path itself to generate id..
     if (document.getElementById(cssId)) {
-
         head.removeChild(document.getElementById(cssId));
     }
     if (!document.getElementById(cssId))
